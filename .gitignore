@@ -5,7 +5,8 @@ ehthumbs_vista.db
 
 # Folder config file
 Desktop.ini
-botconfig.py
+venv*
+.idea*
 
 # Keys
 *.csv

@@ -1,11 +1,10 @@
-class Market:
+class Pair:
 
-    def __init__(self, symbol):
+    def __init__(self, ex1, ex2, m1, m2, symbol):
         self.Symbol = symbol
         self.Base = symbol.split('/')[0]
         self.Quote = symbol.split('/')[1]
         self.Orders = []
-
         self.BestBid = -1
         self.BestAsk = -1
 
@@ -41,8 +40,6 @@ class Market:
         return self.BestAskEx
 
 
-
-
 class PriceEntry:
 
     def __init__(self, exchange, book, symbol, isbid):
@@ -57,17 +54,17 @@ class PriceEntry:
 
     def estimate_fee_percent(self, price, volume):
         feepercent = self.estimate_fees(price, volume)
-        feepercent /= (price*volume)
+        feepercent /= (price * volume)
         return feepercent
 
-    def estimate_fees(self, volume):
-        fee = self.Fees * self.Price * volume
+    def estimate_fees(self, price, volume):
+        fee = self.Fees * price * volume
         depositFees = self.Exchange.fees['funding']['deposit']
         if self.Base in [*depositFees]:
-            fee += depositFees[self.Base] * self.Price if not self.Bid else 1.0
+            fee += depositFees[self.Base] * price if not self.Bid else 1.0
         withdrawFees = self.Exchange.fees['funding']['withdraw']
         if self.quote in [*withdrawFees]:
-            fee += withdrawFees[self.Quote] * self.Price if self.Bid else 1.0
+            fee += withdrawFees[self.Quote] * price if self.Bid else 1.0
         return fee
 
     def get_price(self):
@@ -101,12 +98,7 @@ class ArbitrageList:
         if len(self.AskList) == 0:
             self.AskList.append(askentry)
 
-    def sort(self, n=10000):
-
-        return sorted(self.orders, key=lambda x: n * x.Price - x.estimate_fees(n))
-
     def clean_lists(self):
-
         if len(self.AskList) == 0 or len(self.BidList) == 0:
             self.AskList = []
             self.BidList = []
@@ -133,10 +125,10 @@ class ArbitrageList:
             worstaskval = self.AskList[-1].get_price()
             percent = 100 * bidval / bestaskval
             lowpercent = 100 * bidval / worstaskval
-            print("Bid ",bid.Symbol," on ",bid.Exchange.id," is ","%.3f" % percent,
-                  " of lowest ask on ",self.AskList[0].Exchange.id," and ",
-                  "%.3f" % lowpercent," of highest ask on ", self.AskList[-1].Exchange.id)
+            print("Bid ", bid.Symbol, " on ", bid.Exchange.id, " is ", "%.3f" % percent,
+                  " of lowest ask on ", self.AskList[0].Exchange.id, " and ",
+                  "%.3f" % lowpercent, " of highest ask on ", self.AskList[-1].Exchange.id)
 
     def print_test(self):
-        print(self.Symbol+" - Bid[0]: "+str(self.BidList[0].Price)+", Bid[n]: "+str(self.BidList[-1].Price)+
-              ", Ask[0]: "+str(self.AskList[0].Price)+", Ask[n]: "+str(self.AskList[-1].Price))
+        print(self.Symbol + " - Bid[0]: " + str(self.BidList[0].Price) + ", Bid[n]: " + str(self.BidList[-1].Price) +
+              ", Ask[0]: " + str(self.AskList[0].Price) + ", Ask[n]: " + str(self.AskList[-1].Price))

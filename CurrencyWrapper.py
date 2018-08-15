@@ -12,10 +12,8 @@ class Currency:
         self.Precisions = {}
         self.Balance = 0
         self.Available = 0
-        json = botutils.balance(name, key)
-        if len(json) > 0:
-            self.Balance = json['human_balance']
-            self.Available = self.Balance
+        self.Balance = botutils.balance(name, key)
+        self.Available = self.Balance
 
     def add_exchange(self, exchange, balancesheet):
 

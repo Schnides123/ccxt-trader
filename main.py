@@ -4,11 +4,15 @@ import json
 import time
 import ExchangeWrapper
 import CurrencyWrapper
-import botconfig
 import os
 import sys
 import MarketRecord
 import random
+from botutils import *
+import keys
+import Balance
+import botconfig
+import copy
 
 Exchanges = {}
 Currencies = {}
@@ -24,65 +28,7 @@ TotalFunds = 0
 TotalFundsUSD = 0
 TotalAvailable = 0
 TotalAvailableUSD = 0
-
-def style(s, style):
-    return style + s + '\033[0m'
-
-
-def green(s):
-    return style(s, '\033[92m')
-
-
-def blue(s):
-    return style(s, '\033[94m')
-
-
-def yellow(s):
-    return style(s, '\033[93m')
-
-
-def red(s):
-    return style(s, '\033[91m')
-
-
-def pink(s):
-    return style(s, '\033[95m')
-
-
-def bold(s):
-    return style(s, '\033[1m')
-
-
-def underline(s):
-    return style(s, '\033[4m')
-
-
-def dump(*args):
-    print(' '.join([str(arg) for arg in args]))
-
-
-def print_exchanges():
-    dump('Supported exchanges:', ', '.join(ccxt.exchanges))
-
-
-def print_usage():
-    dump("Usage: python " + sys.argv[0], green('id1'), yellow('id2'), blue('id3'), '...')
-
-
-def print_ticker(exchange, symbol):
-    ticker = exchange.fetch_ticker(symbol.upper())
-    print(ticker)
-    dump(
-        green(exchange.id),
-        yellow(symbol),
-        'ticker',
-        ticker['datetime'],
-        'high: ' + str(ticker['high']),
-        'low: ' + str(ticker['low']),
-        'bid: ' + str(ticker['bid']),
-        'ask: ' + str(ticker['ask']),
-        'volume: ' + str(ticker['quoteVolume']))
-
+Balances = []
 
 def load_exchanges():
 
@@ -109,14 +55,13 @@ def load_exchanges():
                 exchange.apiKey = row['Key']
                 exchange.secret = row['Secret']
                 if exchange.id == 'coinbasepro':
-                    exchange.password = botconfig.coinbasepassword
+                    exchange.password = keys.get_exchange_password(exchange.id)
                 # instantiate the exchange by id
                 dump(green(row['Exchange']), 'loaded', green(str(len(exchange.symbols))), 'markets')
 
             except Exception as e:
                 print(e)
                 pass
-
 
 
 
@@ -146,8 +91,59 @@ def load_currencies():
         Currencies[c].check_balance()
 
 
+def load_exes():
 
-def getArbitrageParis():
+    exkeys = keys.get_exchanges(botconfig.active_exchanges)
+    nexs = 0
+    for ex in [*exkeys]:
+
+        nexs += 1
+        exchange = getattr(ccxt, ex)()
+
+        try:
+            # load all markets from the exchange
+            markets = exchange.load_markets()
+
+            # save it in a dictionary under its id for future use
+            Exchanges[ex] = exchange
+            exchange.apiKey = exkeys[ex]['key']
+            exchange.secret = exkeys[ex]['secret']
+            exchange.password = keys.get_exchange_password(ex)
+            # instantiate the exchange by id
+            dump(green(ex), 'loaded', green(str(len(exchange.symbols))), 'markets')
+
+        except Exception as e:
+            print(e)
+            pass
+
+    dump(green('lcoaded '),(green(str(nexs)) if nexs == len(exkeys) else blue(str(nexs))), green(' of '), green(str(len(exkeys))), green(' markets.'))
+
+
+def load_coins():
+
+    coins = keys.get_keys(botconfig.active_coins)
+
+
+    for coin in [*coins]:
+            Currencies[coin] = CurrencyWrapper.Currency(coin, coins[coin]['key'], coins[coin]['secret'])
+    for c1 in [*Currencies]:
+        # print(c1)
+        for c2 in [*Currencies]:
+            if Currencies[c1].Name != Currencies[c2].Name:
+                Symbols.append(Currencies[c1].Name+"/"+Currencies[c2].Name)
+    # print("Available Markets:")
+    #for s in Symbols:
+        # print(s)
+    for id in [*Exchanges]:
+        balancesheet = Exchanges[id].fetch_balance()
+        for currency in [*Currencies]:
+            Currencies[currency].add_exchange(Exchanges[id], balancesheet)
+
+    for c in [*Currencies]:
+        Currencies[c].check_balance()
+
+
+def getArbitragePairs():
 
     ids = [*Exchanges]
     for id in ids:
@@ -179,28 +175,49 @@ def getArbitrageParis():
         #     string += ' {:<15} | '.format(id if symbol in Exchanges[id].symbols else '')
         # dump(string)
 
+def getAllArbitragePairs():
+
+    ids = [*Exchanges]
+    for id in ids:
+        marketSymbols[id] = []
+    allSymbols = [symbol for id in ids for symbol in Exchanges[id].symbols if check_symbol(symbol)]
+
+    # get all unique symbols
+    uniqueSymbols = list(set(allSymbols))
+
+    # filter out symbols that are not present on at least two exchanges
+    arbitrableSymbols = sorted([symbol for symbol in uniqueSymbols if allSymbols.count(symbol) > 1])
+
+    for symbol in arbitrableSymbols:
+        pairedSymbols.append(symbol)
+        for id in ids:
+            if symbol in Exchanges[id].symbols:
+                marketSymbols[id].append(symbol)
+
 
 def get_prices():
 
-    dump(green("Fetching market data..."))
-
     for symbol in pairedSymbols:
-        pairTable[symbol] = MarketRecord.MarketRecord(symbol)
+        pairTable[symbol] = MarketRecord.Market(symbol)
         ArbList[symbol] = MarketRecord.ArbitrageList(symbol)
 
     delay = 0
     maxLength = 0
+    nmarkets = 0
     for id in [*marketSymbols]:
-        dump(yellow("loading..."))
         rlm = int(Exchanges[id].rateLimit/1000)
         ls = len(marketSymbols[id])
+        nmarkets += ls
         if rlm > delay:
             delay = rlm
         if ls > maxLength:
             maxLength = ls
 
+    dump(green("Fetching price data from "+str(nmarkets)+" markets..."))
+
     try:
         for i in range(0,maxLength):
+            dump(yellow("loading ("+"%.1f" % (100*(i+0.0)/maxLength)+"%)..."))
             time.sleep(delay)
             for id in [*marketSymbols]:
                 if i >= len(marketSymbols[id]):
@@ -242,13 +259,56 @@ def get_prices():
 def get_balances():
 
 
-    #check for completed transactions
-    #for each exchange and wallet:
-    #loop through wallets and sum up usd value of available and total funds
-    # *reminder* this includes funds on exchanges that can be withdrawed to other deposit addresses
-    #create array of percentages for each currency's share of total available funds
-    #update file entries for orders with exact prices after fees, profit, etc
+    #### Fetch free balances from exchanges and enter them into Balance objects. Should only run once during setup to prevent duplicate entries. Does not include balances currently allocated by exchanges for pending transactions.
 
+    balancelist = []
+
+    for id in [*Exchanges]:
+
+        balances = Exchanges[id].fetch_balance()
+        for b in [*balances['free']]:
+            amount = balances['free'][b]
+            exchange = Exchanges[id]
+            currency = Currencies[b]
+            balancelist.append(Balance.Balance(amount, exchange, currency))
+
+    return balancelist
+
+
+
+def get_available_balances():
+
+    available_balances = []
+    for b in Balances:
+        if not b.is_allocated():
+            available_balances.append(b)
+
+    return merge_balances(available_balances)
+
+
+def merge_balances(balances):
+
+    #### Merges balances held in the same coin on the same exchange. Takes a list of balances as an argument and returns a list of the merged entries.
+
+    if len(balances) == 0:
+        return []
+
+    mergedbalances = {balances[0].balance_key() : copy(balances[0])}
+
+    for b in balances[1:]:
+        key = b.balance_key()
+        if key in [*mergedbalances]:
+            mergedbalances[key].Amount += b.Amount
+        else:
+            mergedbalances[key] = copy.copy(b)
+
+    return mergedbalances.values()
+
+
+
+
+
+def check_balances():
     pass
 
 
@@ -296,13 +356,14 @@ def trade_atomic(exchange, symbol, price, volume):
 
 
 def setup():
-    load_exchanges()
+    dump("ccxt v.",ccxt.__version__)
+    load_exes()
     load_currencies()
 
 def main():
 
     setup()
-    getArbitrageParis()
+    getAllArbitragePairs()
     get_prices()
     print("Arbitrage Pairs:")
     for a in [*ArbList]:
