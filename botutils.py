@@ -1,6 +1,8 @@
 import requests
+import ccxt
 import web3
 import cryptos
+import coinmarketcap
 from keys import *
 
 
@@ -14,7 +16,13 @@ cointable = {
     'DASH':'dash',
 }
 
+cap = coinmarketcap.Market()
+tickerdata = cap.ticker()['data']
+
 iso_currencies = ['KHR', 'MRU', 'SOS', 'TND', 'MVR', 'ARS', 'XCD', 'FKP', 'MAD', 'TZS', 'CLP', 'MMK', 'HKD', 'RON', 'PAB', 'THB', 'HNL', 'BTN', 'EGP', 'SRD', 'SVC', 'SGD', 'NGN', 'XSU', 'KPW', 'KYD', 'COU', 'SHP', 'UYU', 'GIP', 'SLL', 'CZK', 'BOV', 'KZT', 'LBP', 'MDL', 'KES', 'DJF', 'KRW', 'DOP', 'MXV', 'HRK', 'PYG', 'KGS', 'NPR', 'PGK', 'HTG', 'SEK', 'GNF', 'UAH', 'IQD', 'PLN', 'ETB', 'SBD', 'INR', 'CHW', 'TRY', 'BGN', 'GMD', 'BYN', 'CHE', 'GHS', 'TTD', 'AFN', 'MOP', 'MKD', 'NIO', 'XPF', 'AOA', 'MZN', 'TWD', 'LRD', 'UZS', 'BWP', 'BZD', 'MXN', 'VND', 'SCR', 'AWG', 'PKR', 'TMT', 'XAF', 'STN', 'BRL', 'CRC', 'RUB', 'SSP', 'BDT', 'SDG', 'CUP', 'LYD', 'AUD', 'YER', 'IDR', 'LAK', 'USD', 'MGA', 'LSL', 'DZD', 'NZD', 'EUR', 'AMD', 'JPY', 'COP', 'GYD', 'OMR', 'JMD', 'BIF', 'CHF', 'JOD', 'BHD', 'KMF', 'BND', 'FJD', 'LKR', 'BSD', 'SYP', 'VEF', 'TOP', 'SAR', 'WST', 'HUF', 'UYI', 'GTQ', 'ILS', 'ZWL', 'BAM', 'ALL', 'GBP', 'UGX', 'TJS', 'MYR', 'MWK', 'ERN', 'VUV', 'BOB', 'SZL', 'BMD', 'XDR', 'RWF', 'KWD', 'XUA', 'CDF', 'NOK', 'MUR', 'NAD', 'CAD', 'CUC', 'ISK', 'ZAR', 'QAR', 'RSD', 'XOF', 'PEN', 'USN', 'ZMW', 'GEL', 'CNY', 'BBD', 'PHP', 'MNT', 'AED', 'ANG', 'CLF', 'CVE', 'DKK', 'IRR', 'AZN']
+
+#withdraw limits for exchanges. 0 means that withdraw is disabled
+withdraw_limits = {'hitbtc':float('inf')}
 
 def style(s, style):
     return style + s + '\033[0m'
@@ -58,6 +66,19 @@ def print_exchanges():
 
 def print_usage():
     dump("Usage: python " + sys.argv[0], green('id1'), yellow('id2'), blue('id3'), '...')
+
+
+def convert_from_USD(amount, currency, sigma=0):
+    for i in [*tickerdata]:
+        if tickerdata[i]['symbol'] == currency:
+            return (1+sigma)*amount*(1/tickerdata[i]['quotes']['USD']['price'])
+    return 0
+
+def convert_to_USD(amount, currency, sigma=0):
+    for i in [*tickerdata]:
+        if tickerdata[i]['symbol'] == currency:
+            return (1-sigma)*amount*(tickerdata[i]['quotes']['USD']['price'])
+    return 0
 
 
 def print_ticker(exchange, symbol):
@@ -106,7 +127,7 @@ def balance(currency, address):
         assert currency in [*cointable]
         if currency == 'ETH':
             balance = w3.eth.getBalance(address)
-            return w3.utils.fromWei(balance)
+            return web3.utils.fromWei(balance)
         else:
             if currency == 'BTC':
                 coin = cryptos.Bitcoin()
@@ -137,7 +158,7 @@ def transfer(currency, amount, addressto, addressfrom, secret):
         coin = cryptos.Dash()
     if currency == 'BCH':
         coin = cryptos.BitcoinCash()
-    tx = coin.preparesignedtx(secret,addressto,amount,fee=fee,change_addr=addressfrom)
+    tx = coin.preparesignedtx(secret,addressto,amount,change_addr=addressfrom)
     receipt = cryptos.pushtx(tx)
 
 

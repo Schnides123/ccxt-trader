@@ -2,7 +2,7 @@ import ccxt
 import csv
 import json
 import time
-import ExchangeWrapper
+import Exchange
 import CurrencyWrapper
 import os
 import sys
@@ -13,6 +13,7 @@ import keys
 import Balance
 import botconfig
 import copy
+import Pair
 
 Exchanges = {}
 Currencies = {}
@@ -29,6 +30,11 @@ TotalFundsUSD = 0
 TotalAvailable = 0
 TotalAvailableUSD = 0
 Balances = []
+exchanges = {}
+pairs = []
+symbex = {}
+pairtuples = []
+pairs = []
 
 def load_exchanges():
 
@@ -83,7 +89,10 @@ def load_currencies():
     #for s in Symbols:
         # print(s)
     for id in [*Exchanges]:
-        balancesheet = Exchanges[id].fetch_balance()
+        try:
+            balancesheet = Exchanges[id].fetch_balance()
+        except:
+            pass
         for currency in [*Currencies]:
             Currencies[currency].add_exchange(Exchanges[id], balancesheet)
 
@@ -109,6 +118,7 @@ def load_exes():
             exchange.apiKey = exkeys[ex]['key']
             exchange.secret = exkeys[ex]['secret']
             exchange.password = keys.get_exchange_password(ex)
+            exchanges[ex] = (Exchange.Exchange(exchange))
             # instantiate the exchange by id
             dump(green(ex), 'loaded', green(str(len(exchange.symbols))), 'markets')
 
@@ -125,7 +135,7 @@ def load_coins():
 
 
     for coin in [*coins]:
-            Currencies[coin] = CurrencyWrapper.Currency(coin, coins[coin]['key'], coins[coin]['secret'])
+            Currencies[coin] = CurrencyWrapper.Currency(coin, coins[coin]['public'], coins[coin]['private'])
     for c1 in [*Currencies]:
         # print(c1)
         for c2 in [*Currencies]:
@@ -158,8 +168,10 @@ def getArbitragePairs():
 
     for symbol in arbitrableSymbols:
         pairedSymbols.append(symbol)
+        pair = Pair.ArbPair()
         for id in ids:
             if symbol in Exchanges[id].symbols:
+                exchanges[id].addPair()
                 marketSymbols[id].append(symbol)
 
     # print a table of arbitrable symbols
@@ -190,16 +202,27 @@ def getAllArbitragePairs():
 
     for symbol in arbitrableSymbols:
         pairedSymbols.append(symbol)
+        b = base(symbol)
+        q = quote(symbol)
+        if not b in [*Currencies]:
+            Currencies[b] = CurrencyWrapper.Currency(b)
+        if not q in [*Currencies]:
+            Currencies[q] = CurrencyWrapper.Currency(q)
+
+        symbex[symbol] = []
+
         for id in ids:
             if symbol in Exchanges[id].symbols:
                 marketSymbols[id].append(symbol)
+                symbex[symbol].append(exchanges[id])
+
+        for i in range(0, len(symbex[symbol])):
+            for j in range(i+1, len(symbex[symbol])):
+                pairtuples.append((symbex[symbol][i], symbex[symbol][j], symbol))
+
 
 
 def get_prices():
-
-    for symbol in pairedSymbols:
-        pairTable[symbol] = MarketRecord.Market(symbol)
-        ArbList[symbol] = MarketRecord.ArbitrageList(symbol)
 
     delay = 0
     maxLength = 0
@@ -227,8 +250,7 @@ def get_prices():
                     symbol = marketSymbols[id][i]
                     try:
                         orderbook = exchange.fetch_order_book(symbol)
-                        pairTable[symbol].add_order(orderbook, exchange)
-                        ArbList[symbol].add_order(orderbook, exchange, symbol)
+                        exchanges[id].add_book(orderbook, symbol)
 
                     except ccxt.DDoSProtection as e:
                         print(type(e).__name__, e.args, 'DDoS Protection (ignoring)')
@@ -244,7 +266,8 @@ def get_prices():
                         print(type(e).__name__, e.args, 'Authentication Error (missing API keys, ignoring)')
                         pass
                     except Exception as e:
-                        #print("Exception:", e.args, exchange, symbol, str(symbol in exchange.symbols))
+                        print("Exception:", e.args, exchange, symbol, str(symbol in exchange.symbols))
+
                         pass
 
     except Exception as e:
@@ -252,9 +275,33 @@ def get_prices():
         print(type(e).__name__, e.args, str(e))
         print_usage()
 
-    for symbol in [*ArbList]:
-        ArbList[symbol].clean_lists()
 
+def update_pairs():
+
+    dump('Trying '+yellow(str(len(pairtuples)))+' arbitrable trade pairs.')
+
+    for p in pairtuples:
+        #print(p[0], p[1], p[2])
+        pair = Pair.Pair(p[0], p[1], p[2])
+        # if pair.Margin > 1.0:
+        #     print(pair)
+        #     print(pair.ExBuy is not None)
+        #     print(pair.min_trade())
+        #     print(pair.max_trade())
+        if pair.ExBuy is not None and pair.min_trade() < pair.max_trade():
+            pairs.append(pair)
+            #print('pair: ', pair.Symbol)
+
+    pairs.sort(key=lambda x: x.Margin, reverse=True)
+
+
+def get_prices_better():
+
+    #create exchange objects
+    #create pair objects
+    #add pair ovjects to exchanges
+
+    return
 
 def get_balances():
 
@@ -293,7 +340,7 @@ def merge_balances(balances):
     if len(balances) == 0:
         return []
 
-    mergedbalances = {balances[0].balance_key() : copy(balances[0])}
+    mergedbalances = {balances[0].balance_key() : copy.copy(balances[0])}
 
     for b in balances[1:]:
         key = b.balance_key()
@@ -324,6 +371,11 @@ def select_orders():
     #combine all orders into 1 limit order per exchange
 
     pass
+
+def create_tx_paths(pairs, exchanges):
+
+    pass
+
 
 
 def allocate_funds():
@@ -358,16 +410,18 @@ def trade_atomic(exchange, symbol, price, volume):
 def setup():
     dump("ccxt v.",ccxt.__version__)
     load_exes()
-    load_currencies()
+    load_coins()
 
 def main():
 
     setup()
     getAllArbitragePairs()
     get_prices()
+    update_pairs()
     print("Arbitrage Pairs:")
-    for a in [*ArbList]:
-        ArbList[a].print_bids()
+    for p in pairs:
+        print(str(p))
+
 
 
     # for symbol in [*pairTable]:
@@ -377,7 +431,7 @@ def main():
     #     if(bid > ask):
     #         bidVolume = pairTable[symbol].bid()['bids'][0][1]
     #         askVolume = pairTable[symbol].ask()['asks'][0][1]
-    #         bidex = pairTable[symbol].bid_exchange().id
+    #         bidex = pairTable[symbol].bid_exchang"%.3f" % lowpercente().id
     #         askex = pairTable[symbol].ask_exchange().id
     #         print(symbol + " " + askex + "->" + bidex + " - " + "bid: " + str(bidVolume) + " @" + str(bid) + ", ask: " + str(askVolume) + " @" + str(ask) + ", margin: " + str(100*(bid-ask)/ask) + "%")
 

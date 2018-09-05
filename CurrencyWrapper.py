@@ -1,9 +1,10 @@
 import ccxt
 import botutils
+import botconfig
 
 class Currency:
 
-    def __init__(self, name, key, secret):
+    def __init__(self, name, key=None, secret=None):
         self.Name = name
         self.id = name
         self.Key = key
@@ -12,7 +13,8 @@ class Currency:
         self.Precisions = {}
         self.Balance = 0
         self.Available = 0
-        self.Balance = botutils.balance(name, key)
+        if key != None:
+            self.Balance = botutils.balance(name, key)
         self.Available = self.Balance
 
     def add_exchange(self, exchange, balancesheet):
