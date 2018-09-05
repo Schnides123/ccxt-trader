@@ -47,13 +47,13 @@ class Exchange:
 
         return self.convert(self.WithdrawLimits, 'BTC', currency)
 
-    def max_order_size(self, symbol, buysell, converted=True, sigma=bookbuffer):
+    def max_order_size(self, symbol, sellbuy, converted=True, sigma=bookbuffer):
 
         #returns the sum amount of base currency in all orders listed on the l2 order book
 
         book = self.OrderBooks[symbol]
 
-        if buysell == 'buy':
+        if sellbuy == 'sell':
             sum = 0.0
             for i in range(sigma, len(book['bids'])):
                 sum += book['bids'][i][1]
@@ -83,12 +83,12 @@ class Exchange:
         if cfrom+'/'+cto in [*self.Markets]:
             symbol = cfrom+'/'+cto
             fees = self.Markets[symbol]['taker'] if includefees else 0
-            return self.market_buy(symbol, amount, sigma=sigma) * (1-fees)
+            return self.market_sell(symbol, amount, sigma=sigma) * (1-fees)
 
         if cto+'/'+cfrom in [*self.Markets]:
             symbol = cto + '/' + cfrom
             fees = self.Markets[symbol]['taker'] if includefees else 0
-            return self.market_sell(symbol, amount, sigma=sigma) * (1 - fees)
+            return self.market_buy(symbol, amount, sigma=sigma) * (1 - fees)
 
         if cfrom != 'BTC':
 
@@ -96,40 +96,40 @@ class Exchange:
 
                 symbol = cfrom+'/BTC'
                 fees = self.Markets[symbol]['taker'] if includefees else 0
-                return self.convert(self.market_buy(symbol, amount, sigma=sigma)*(1-fees), 'BTC', cto, includefees, sigma=sigma)
+                return self.convert(self.market_sell(symbol, amount, sigma=sigma)*(1-fees), 'BTC', cto, includefees, sigma=sigma)
 
             else:
                 if ('BTC/'+cfrom) in [*self.Markets]:
                     symbol = 'BTC/'+cfrom
                     fees = self.Markets[symbol]['taker'] if includefees else 0
-                    return self.convert(self.market_sell(symbol, amount, sigma=sigma) * (1 - fees), 'BTC', cto, includefees, sigma=sigma)
+                    return self.convert(self.market_buy(symbol, amount, sigma=sigma) * (1 - fees), 'BTC', cto, includefees, sigma=sigma)
 
         if cfrom != 'ETH':
 
             if cfrom + '/ETH' in [*self.Markets]:
                 symbol = cfrom + '/ETH'
                 fees = self.Markets[symbol]['taker'] if includefees else 0
-                return self.convert(self.market_buy(symbol, amount, sigma=sigma) * (1 - fees), 'ETH', cto, includefees, sigma=sigma)
+                return self.convert(self.market_sell(symbol, amount, sigma=sigma) * (1 - fees), 'ETH', cto, includefees, sigma=sigma)
 
             else:
                 if ('ETH/' + cfrom) in [*self.Markets]:
                     symbol = 'ETH/' + cfrom
                     fees = self.Markets[symbol]['taker'] if includefees else 0
-                    return self.convert(self.market_sell(symbol, amount, sigma=sigma) * (1 - fees), 'ETH', cto, includefees, sigma=sigma)
+                    return self.convert(self.market_buy(symbol, amount, sigma=sigma) * (1 - fees), 'ETH', cto, includefees, sigma=sigma)
 
         if cfrom != 'USDT':
 
             if cfrom + '/USDT' in [*self.Markets]:
                 symbol = cfrom + '/USDT'
                 fees = self.Markets[symbol]['taker'] if includefees else 0
-                return self.convert(self.market_buy(symbol, amount, sigma=sigma) * (1 - fees), 'USDT', cto, includefees, sigma=sigma)
+                return self.convert(self.market_sell(symbol, amount, sigma=sigma) * (1 - fees), 'USDT', cto, includefees, sigma=sigma)
 
             else:
 
                 if ('USDT/' + cfrom) in [*self.Markets]:
                     symbol = 'USDT/' + cfrom
                     fees = self.Markets[symbol]['taker'] if includefees else 0
-                    return self.convert(self.market_sell(symbol, amount, sigma=sigma) * (1 - fees), 'USDT', cto, includefees, sigma=sigma)
+                    return self.convert(self.market_buy(symbol, amount, sigma=sigma) * (1 - fees), 'USDT', cto, includefees, sigma=sigma)
 
         return float('inf')
 
@@ -206,7 +206,7 @@ class Exchange:
 
     def estimate_bid_price(self, symbol, amount, sigma=bookbuffer):
 
-        #estimate the price of buying the listed amount of currency based on the orders in the market's order book
+        #estimate the price of selling the listed amount of currency based on the orders in the market's order book
         #symbol and amount are as expected, sigma is the skips past the current bid price to account for orders filled
         #since the last time market data was queried.
 
@@ -236,9 +236,9 @@ class Exchange:
                 return -1
         return price/amount
 
-    def estimate_sell_price(self, symbol, amount, sigma=bookbuffer):
+    def estimate_buy_price(self, symbol, amount, sigma=bookbuffer):
 
-        # estimate the price of buying the listed amount of currency based on the orders in the market's order book
+        # estimate the price of selling the listed amount of currency based on the orders in the market's order book
         # symbol and amount are as expected, sigma is the skips past the current bid price to account for orders filled
         # since the last time market data was queried.
 
@@ -268,9 +268,9 @@ class Exchange:
                 return -1
         return price / amount
 
-    def estimate_sell_price_at(self, symbol, amount, sigma=bookbuffer):
+    def estimate_buy_price_at(self, symbol, amount, sigma=bookbuffer):
 
-        # estimate the price of buying the listed amount of currency based on the orders in the market's order book
+        # estimate the price of selling the listed amount of currency based on the orders in the market's order book
         # symbol and amount are as expected, sigma is the skips past the current bid price to account for orders filled
         # since the last time market data was queried.
 
@@ -301,7 +301,7 @@ class Exchange:
                 return -1
         return price
 
-    def estimate_buy_price(self, symbol, amount, sigma=bookbuffer):
+    def estimate_sell_price(self, symbol, amount, sigma=bookbuffer):
 
         assert symbol in [*self.Markets]  # convert to get_market call
 
@@ -327,7 +327,7 @@ class Exchange:
 
         return price/amount
 
-    def estimate_buy_price_at(self, symbol, amount, sigma=bookbuffer):
+    def estimate_sell_price_at(self, symbol, amount, sigma=bookbuffer):
 
         assert symbol in [*self.Markets]  # convert to get_market call
 
@@ -380,7 +380,7 @@ class Exchange:
 
     def estimate_bid_order(self, symbol, amount, amtqcurrency=False, sigma=bookbuffer):
 
-        #estimate the price of buying the listed amount of currency based on the orders in the market's order book
+        #estimate the price of selling the listed amount of currency based on the orders in the market's order book
         #symbol and amount are as expected, sigma is the skips past the current bid price to account for orders filled
         #since the last time market data was queried. Amtqcurrency is a flag for whether the amount provided is given in
         #the quote currency (True) or the base currency (False).
@@ -411,9 +411,9 @@ class Exchange:
                 return -float('inf')
         return price
 
-    def market_sell(self, symbol, amount, amtqcurrency=False, sigma=bookbuffer):
+    def market_buy(self, symbol, amount, amtqcurrency=False, sigma=bookbuffer):
 
-        #estimate the price of buying the listed amount of currency based on the orders in the market's order book
+        #estimate the price of selling the listed amount of currency based on the orders in the market's order book
         #symbol and amount are as expected, sigma is the skips past the current bid price to account for orders filled
         #since the last time market data was queried. Amtqcurrency is a flag for whether the amount provided is given in
         #the quote currency (True) or the base currency (False).
@@ -450,7 +450,7 @@ class Exchange:
         #print(count,',, ',price)
         return price
 
-    def market_buy(self, symbol, amount, converted=True, sigma=bookbuffer):
+    def market_sell(self, symbol, amount, converted=True, sigma=bookbuffer):
 
         assert symbol in [*self.Markets]
 
@@ -503,9 +503,9 @@ class Exchange:
                 return -1
         return price
 
-    def estimate_sell_cost(self, symbol, amount, sigma=bookbuffer):
+    def estimate_buy_cost(self, symbol, amount, sigma=bookbuffer):
 
-        #how much you'd need to sell to get X amount of the base currency
+        #how much you'd need to buy to get X amount of the base currency
 
         assert symbol in [*self.Markets]
 
@@ -533,9 +533,9 @@ class Exchange:
                 return float('inf')
         return price
 
-    def estimate_buy_cost(self, symbol, amount, sigma=bookbuffer):
+    def estimate_sell_cost(self, symbol, amount, sigma=bookbuffer):
 
-        #how much buying X amount of the quote currency costs
+        #how much selling X amount of the quote currency costs
 
         assert symbol in [*self.Markets]
 

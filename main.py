@@ -285,10 +285,10 @@ def update_pairs():
         pair = Pair.Pair(p[0], p[1], p[2])
         # if pair.Margin > 1.0:
         #     print(pair)
-        #     print(pair.ExBuy is not None)
+        #     print(pair.Exsell is not None)
         #     print(pair.min_trade())
         #     print(pair.max_trade())
-        if pair.ExBuy is not None and pair.min_trade() < pair.max_trade():
+        if pair.Exsell is not None and pair.min_trade() < pair.max_trade():
             pairs.append(pair)
             #print('pair: ', pair.Symbol)
 
