@@ -110,16 +110,16 @@ class Pair:
         bprice = bbook['asks'][bi][0]
 
         if self.FlatFees['sell'] == 0 and self.FlatFees['buy'] == 0 and sprice > bprice:
-            print('no fees')
+            #print('no fees')
             return 0
 
         #todo: test this hacky garbage
         if self.Margin <= 1:
-            print('Margin < 1')
+            #print('Margin < 1')
             return float('inf')
 
         #bprice starts above sprice, and
-        while max(scount, bcount) < mcount and ai < len(sbook['bids']) and bi < len(
+        while min(scount, bcount) < mcount and ai < len(sbook['bids']) and bi < len(
                 bbook['asks']):
             lcount = min(scount, bcount)
             lprice = sprice-bprice
@@ -134,8 +134,9 @@ class Pair:
             if min(scount, bcount) > mcount:
                 print('order book overflow')
                 return float('inf')
-            rmin = self.roi(min(scount, bcount), flatfee=flatfee, percentfee=percentfee)
-            rlast = self.roi(lcount, flatfee=flatfee, percentfee=percentfee)
+            #print(min(scount, bcount), mcount, buymax, sellmax)
+            rmin = self.roi(min(scount, bcount), sellbuy='sell', flatfee=flatfee, percentfee=percentfee)
+            rlast = self.roi(lcount, sellbuy='sell', flatfee=flatfee, percentfee=percentfee)
             if rmin >= 0:
 
                 if rmin == 0:
@@ -153,9 +154,9 @@ class Pair:
                 return max(lcount + (lcount - rlast/(rmin-rlast)*(min(scount, bcount)-lcount)*(sprice-bprice)), 0)
 
 
-        print('loop overrun')
-        print(max(scount, bcount) < mcount, ai < len(sbook['bids']), bi < len(
-            bbook['asks']))
+        #print('loop overrun')
+        #print(max(scount, bcount) < mcount, ai < len(sbook['bids']), bi < len(
+        #    bbook['asks']))
         return float('inf')
 
 
@@ -237,8 +238,9 @@ class Pair:
             #bmax = self.ExBuy.estimate_buy_price_at(self.Symbol, min(sum(bbook['asks'][:][1]),max(scount, bcount)) * (1 + self.PercentFees['$sell$'])
             smax = self.Exsell.estimate_sell_price_at(self.Symbol, min(scount, bcount)) * (1 - self.PercentFees['sell'] - percentfee)
             bmax = self.ExBuy.estimate_buy_price_at(self.Symbol, self.Exsell.market_sell(self.Symbol, min(scount, bcount))) * (1 + self.PercentFees['buy'])
-        print('maxmargin:')
-        print(self.roi(lcount))
+        #print('maxmargin:')
+        #print(lcount > mcount)
+        #print(self.roi(lcount, sellbuy='sell'))
         return lcount #, self.Exsell.convert_simple(self.Exsell.max_withdraw(self.Quote), self.Quote, self.Base), self.ExBuy.max_withdraw(self.Base))
 
 
@@ -277,10 +279,16 @@ class Pair:
                 return -float('inf')
             
             sold = (self.Exsell.market_sell(self.Symbol, amt - self.PercentFees['sell']*abs(amt)) if amt > 0 else amt) - self.FlatFees['sell']
-            
+            # /self.Exsell.estimate_sell_price(self.Symbol, first, sigma=sigma))
+            #todo : double check and test fee conversion
             #print('test',amount,first)
-            bought = (self.ExBuy.market_sell(self.Symbol, sold - self.PercentFees['buy'] * abs(
+            bought = (self.ExBuy.market_buy(self.Symbol, sold - self.PercentFees['buy'] * abs(
                 sold)) if amt > 0 else sold) - self.FlatFees['buy']
+
+            #print('amt', amt, self.ExBuy.estimate_buy_cost(self.Symbol, sold))
+            #print('first', sold, self.Exsell.estimate_sell_cost(self.Symbol, bought))
+            #print('second', bought, amount, self.FlatFees['sell'], self.FlatFees[
+            #   'sell'])
             #print('test2',amount,first,second)
             return bought - amount
 
@@ -293,18 +301,18 @@ class Pair:
         #print(amt, self.ExBuy.max_order_size(self.Symbol, 'buy'))
         first = ( self.ExBuy.market_buy(self.Symbol, amt) if amt > 0 else amt ) - self.PercentFees['buy']*abs(amt) - self.FlatFees['buy']
 
-        print('amt', amt, self.ExBuy.estimate_buy_cost(self.Symbol, first))
+        #print('amt', amt, self.ExBuy.estimate_buy_cost(self.Symbol, first))
 
         ##print(first)
         second = ( self.Exsell.market_sell(self.Symbol, first) if amt > 0 else first ) - self.PercentFees['sell']*abs(first) - self.FlatFees[
             'sell'] #/ self.Exsell.estimate_sell_price(self.Symbol, first, sigma=sigma)
         ##print(second)
         ##print('****')
-        print('first', first, self.Exsell.estimate_sell_cost(self.Symbol, second))
-        print('second', second, amount, self.FlatFees['sell'], self.FlatFees[
-            'sell'])#/self.Exsell.estimate_sell_price(self.Symbol, first, sigma=sigma))
+        #print('first', first, self.Exsell.estimate_sell_cost(self.Symbol, second))
+        #print('second', second, amount, self.FlatFees['sell'], self.FlatFees[
+        #    'sell'])#/self.Exsell.estimate_sell_price(self.Symbol, first, sigma=sigma))
         return second - amount
 
 
     def __str__(self):
-        return 'sell: '+self.Exsell.Ex.name+', buy:'+self.ExBuy.Ex.name+', via '+self.Symbol+' | '+'%.3f' % (100*self.Margin-100)+'% | min: '+"%.5f" % self.min_trade()+' | max: '+'%.5f'%self.max_trade()+' | $'+"%.2f" % botutils.convert_to_USD(self.max_trade(), self.Base)+' -> $'+"%.2f" % botutils.convert_to_USD(self.max_trade()+self.roi(self.max_trade()), self.Base)
+        return 'sell: '+self.Exsell.Ex.name+', buy:'+self.ExBuy.Ex.name+', via '+self.Symbol+' | '+'%.3f' % (100*self.Margin-100)+'% | min: '+"%.5f" % self.min_trade()+' | max: '+'%.5f'%self.max_trade()+' | $'+"%.2f" % botutils.convert_to_USD(self.max_trade(), self.Base)+' -> $'+"%.2f" % botutils.convert_to_USD(self.max_trade()+self.roi(self.max_trade(), sellbuy='sell'), self.Base)

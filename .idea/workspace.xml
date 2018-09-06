@@ -13,6 +13,7 @@
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,96 +65,80 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="botutils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/botutils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <marker date="1535746607280" expanded="true" signature="2309:2696" ph="..." />
-                <marker date="1535746607280" expanded="true" signature="2731:2736" ph="..." />
-                <marker date="1535746607280" expanded="true" signature="3791:3792" ph="..." />
-                <marker date="1535746607280" expanded="true" signature="3791:4438" ph="..." />
-                <marker date="1535746607280" expanded="true" signature="5743:5998" ph="..." />
-              </folding>
+            <state relative-caret-position="1802">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="Pair.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Pair.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-215">
-              <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
+            <state relative-caret-position="187">
+              <caret line="158" column="9" selection-start-line="158" selection-start-column="9" selection-end-line="158" selection-end-column="9" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1536180738852" expanded="true" signature="11013:11022" ph="..." />
-                <marker date="1536180738852" expanded="true" signature="11013:13935" ph="..." />
-                <marker date="1536180738852" expanded="true" signature="11077:11422" ph="..." />
-                <marker date="1536180738852" expanded="true" signature="12173:12183" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="284" selection-start-line="284" selection-end-line="284" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <marker date="1535753022977" expanded="true" signature="573:1712" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="1710:1711" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="3548:4294" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="8721:9283" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="9307:9313" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="9307:9411" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="9430:9437" ph="..." />
-                <marker date="1535753022977" expanded="true" signature="11255:11269" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/exmo.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2312">
-              <caret line="626" selection-start-line="626" selection-end-line="626" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
+      <file leaf-file-name="Exchange.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Exchange.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-781">
-              <caret line="49" column="40" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="40" />
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1536044596447" expanded="true" signature="5195:7850" ph="..." />
-                <marker date="1536044596447" expanded="true" signature="13044:13050" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MarketRecord.py">
+      <file leaf-file-name="keys.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/keys.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="891">
-              <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+            <state relative-caret-position="3">
+              <caret line="24" column="45" lean-forward="true" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2">
+              <caret line="394" lean-forward="true" selection-start-line="394" selection-end-line="394" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="botconfig.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/botconfig.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="41" lean-forward="true" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="binance.py" pinned="false" current-in-tab="true">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/ccxt/binance.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="130">
+              <caret line="915" selection-start-line="915" selection-end-line="915" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MarketRecord.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MarketRecord.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1479">
+              <caret line="87" selection-start-line="87" selection-end-line="87" />
             </state>
           </provider>
         </entry>
@@ -228,16 +213,16 @@
         <option value="$PROJECT_DIR$/keys.py" />
         <option value="$PROJECT_DIR$/botutils.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/Exchange.py" />
-        <option value="$PROJECT_DIR$/botconfig.py" />
         <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/Exchange.py" />
         <option value="$PROJECT_DIR$/Pair.py" />
+        <option value="$PROJECT_DIR$/botconfig.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1680" />
-    <option name="height" value="1050" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -247,6 +232,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,13 +244,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/alex/Documents/GitHub/ccxt-trader/botutils.py" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -278,7 +263,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Pair">
+  <component name="RunManager" selected="Python.main">
     <configuration name="Pair" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ccxt-trader" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -296,9 +281,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration name="binance" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ccxt-trader" />
@@ -317,9 +299,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration name="botutils" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ccxt-trader" />
@@ -338,9 +317,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ccxt-trader" />
@@ -359,9 +335,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration name="tests" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ccxt-trader" />
@@ -380,9 +353,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.botutils" />
@@ -424,45 +394,45 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837133" visible="true" weight="0.22965641" />
-      <window_info id="Structure" order="1" sideWeight="0.50162864" side_tool="true" weight="0.22965641" />
-      <window_info id="Favorites" order="2" sideWeight="0.50145775" side_tool="true" weight="0.22965641" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837133" visible="true" weight="0.22893482" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3291592" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.37599364" side_tool="true" weight="0.37209302" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.27040815" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4996986" weight="0.19591837" />
-      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.4972875" weight="0.37346938" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4978903" visible="true" weight="0.25760287" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4978903" weight="0.15612245" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5021097" side_tool="true" weight="0.3489796" />
+      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.62400633" weight="0.37209302" />
+      <window_info id="Structure" order="1" sideWeight="0.50162864" side_tool="true" weight="0.22965641" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4996986" weight="0.19591837" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" sideWeight="0.50145775" side_tool="true" weight="0.22965641" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
     </layout>
     <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.15612245" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837133" visible="true" weight="0.22965641" />
       <window_info id="Structure" order="1" sideWeight="0.50162864" side_tool="true" weight="0.22965641" />
-      <window_info id="Favorites" order="2" sideWeight="0.50145775" side_tool="true" weight="0.22965641" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49849308" visible="true" weight="0.3489796" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.19591837" />
-      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49849308" weight="0.37346938" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.15612245" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5015069" side_tool="true" weight="0.37346938" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49849308" visible="true" weight="0.3489796" />
+      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49849308" weight="0.37346938" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.19591837" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5015069" side_tool="true" weight="0.37346938" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Favorites" order="2" sideWeight="0.50145775" side_tool="true" weight="0.22965641" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -498,7 +468,37 @@
     <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/ccxt/binance.py" />
+    <entry file="file://$PROJECT_DIR$/botutils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pair.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3876">
+          <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4658">
+          <caret line="284" selection-start-line="284" selection-end-line="284" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MarketRecord.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1428">
+          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/allcryptos.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -506,30 +506,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Balance.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="67" selection-start-line="18" selection-start-column="67" selection-end-line="18" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TransactionChain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" selection-start-column="18" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Balance.py" />
+    <entry file="file://$PROJECT_DIR$/Transaction.py" />
+    <entry file="file://$PROJECT_DIR$/TransactionChain.py" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
     <entry file="file://$PROJECT_DIR$/CurrencyWrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -537,13 +517,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/bitbay.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="156" selection-start-line="156" selection-end-line="156" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/bitbay.py" />
     <entry file="file://$PROJECT_DIR$/2fakeys.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -551,152 +525,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/keys.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/binance.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1535">
-          <caret line="909" selection-start-line="909" selection-end-line="909" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/base/exchange.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="10" selection-start-column="10" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/urllib3/connectionpool.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5295">
-          <caret line="396" column="33" selection-start-line="396" selection-start-column="33" selection-end-line="396" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/utils/abi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/eth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="33" column="29" lean-forward="true" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2105">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/binance.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/base/exchange.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/urllib3/connectionpool.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/utils/abi.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/eth.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/web3/main.py" />
     <entry file="file://$PROJECT_DIR$/MarketRecord.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="891">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
+        <state relative-caret-position="1479">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
+    <entry file="file://$PROJECT_DIR$/tests.py" />
+    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/exmo.py" />
+    <entry file="file://$PROJECT_DIR$/keys.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="118" column="24" lean-forward="true" selection-start-line="118" selection-start-column="24" selection-end-line="118" selection-end-column="24" />
+        <state relative-caret-position="3">
+          <caret line="24" column="45" lean-forward="true" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Exchange.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <marker date="1536128608814" expanded="true" signature="5463:5468" ph="..." />
-            <marker date="1536128608814" expanded="true" signature="6364:6628" ph="..." />
-            <marker date="1536128608814" expanded="true" signature="6639:6653" ph="..." />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/botutils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+        <state relative-caret-position="1802">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pair.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="158" column="9" selection-start-line="158" selection-start-column="9" selection-end-line="158" selection-end-column="9" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1535746607280" expanded="true" signature="2309:2696" ph="..." />
-            <marker date="1535746607280" expanded="true" signature="2731:2736" ph="..." />
-            <marker date="1535746607280" expanded="true" signature="3791:3792" ph="..." />
-            <marker date="1535746607280" expanded="true" signature="3791:4438" ph="..." />
-            <marker date="1535746607280" expanded="true" signature="5743:5998" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="284" selection-start-line="284" selection-end-line="284" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <marker date="1535753022977" expanded="true" signature="573:1712" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="1710:1711" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="3548:4294" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="8721:9283" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="9307:9313" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="9307:9411" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="9430:9437" ph="..." />
-            <marker date="1535753022977" expanded="true" signature="11255:11269" ph="..." />
-          </folding>
+        <state relative-caret-position="2">
+          <caret line="394" lean-forward="true" selection-start-line="394" selection-end-line="394" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/botconfig.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="41" lean-forward="true" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venvosx/lib/python3.7/site-packages/ccxt/exmo.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/ccxt/binance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2312">
-          <caret line="626" selection-start-line="626" selection-end-line="626" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Pair.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-215">
-          <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1536180738852" expanded="true" signature="11013:11022" ph="..." />
-            <marker date="1536180738852" expanded="true" signature="11013:13935" ph="..." />
-            <marker date="1536180738852" expanded="true" signature="11077:11422" ph="..." />
-            <marker date="1536180738852" expanded="true" signature="12173:12183" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Exchange.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-781">
-          <caret line="49" column="40" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1536044596447" expanded="true" signature="5195:7850" ph="..." />
-            <marker date="1536044596447" expanded="true" signature="13044:13050" ph="..." />
-          </folding>
+        <state relative-caret-position="130">
+          <caret line="915" selection-start-line="915" selection-end-line="915" />
         </state>
       </provider>
     </entry>

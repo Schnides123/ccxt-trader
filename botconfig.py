@@ -1,6 +1,5 @@
 
-active_exchanges = ['coinbasepro','ethfinex','bitbay','exmo','fcoin','bigone','coinex']
-#['binance','hitbtc','coinbasepro','ethfinex','bitbay','bittrex','exmo','fcoin','bigone','kucoin','coinex', 'bitz']
+active_exchanges = ['binance','hitbtc','coinbasepro','ethfinex','bitbay','bittrex','exmo','fcoin','bigone','kucoin','coinex', 'bitz']
 #['binance','hitbtc','coinbasepro','ethfinex','bitbay','bittrex','exmo','fcoin','bigone','kucoin','coinex', 'bitz']
 #['coinbasepro','ethfinex','bitbay','exmo','fcoin','bigone','coinex']
 #['coinbasepro','bitbay','exmo','bigone']
