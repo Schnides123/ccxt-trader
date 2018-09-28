@@ -1,5 +1,7 @@
 import ccxt
 import main
+import botutils
+import botconfig
 class Transaction:
 
     def __init__(self):
@@ -7,11 +9,22 @@ class Transaction:
         self.Data = {}
         self.Started = False
         self.Finished = False
+        self.Next = None
         self.SummaryInfo = {}
 
-
     def push_tx(self):
-        self.Started = True
+        pass
+
+    def cancel_tx(self):
+        pass
+
+    def check_status(self):
+        pass
+
+    def add_next(self, nxt):
+        self.Next = nxt
+
+
 
 
 class TransferTX(Transaction):
@@ -39,41 +52,90 @@ class TransferTX(Transaction):
         # set Finished to deposit flag for transfer
 
 
-class TradeTX(Transaction):
+class BuyTX(Transaction):
 
     def __init__(self, exchange, symbol, amount):
 
         super()
         self.Exchange = exchange
-        #self.Market = exchange.markets[symbol]
-        self.From = main.Currencies[symbol.split('/')[0]]
-        self.To = main.Currencies[symbol.split('/')[1]]
+        self.Symbol = symbol
         self.Amount = amount
-        self.SummaryInfo['cfrom'] = self.From
-        self.SummaryInfo['cto'] = self.To
+        self.SummaryInfo['cfrom'] = botutils.quote(symbol)
+        self.SummaryInfo['cto'] = botutils.base(symbol)
         self.SummaryInfo['efrom'] = self.Exchange
         self.SummaryInfo['eto'] = self.Exchange
         self.SummaryInfo['amount'] = self.Amount
+        self.OrderID = None
+        self.Info = None
+        self.Order = None
 
-    def __init__(self, exchange, currencyfrom, currencyto, amount):
+    def push_tx(self):
+
+        #TODO:
+        #create trade
+        #get trade info and store to data
+        #set Finished to flag from transaction data
+        ex = self.Exchange.Ex
+        if ex.fetch_balance()[self.SummaryInfo['cfrom']]['free'] < self.Amount:
+            raise Exception('error: not enough funds')
+        results = ex.create_limit_buy_order(self.Symbol, self.Amount, self.Exchange.estimate_sell_price_at(self.Symbol, self.Amount))
+        if 'id' in [*results]:
+            self.OrderID = results['id']
+            self.Info = results['info']
+            self.Started = True
+            self.Order = ex.fetch_order(self.OrderID)
+
+    def cancel_tx(self):
+
+        if self.Started:
+            ex = self.Exchange.Ex
+            try:
+                ex.cancel_order(self.OrderID)
+                self.Started = False
+            except:
+                if ex.fetch_order(self.OrderID)['status'] == 'closed':
+                    self.Finished = True
+
+    def check_status(self):
+
+        if self.OrderID is not None:
+            ex = self.Exchange.Ex
+            self.Order = ex.fetch_ordere(self.OrderID)
+            if self.Order['status'] == 'closed':
+                self.Finished = True
+            if self.Order['status'] == 'cancelled':
+                self.Started = False
+
+
+class SellTX(Transaction):
+
+    def __init__(self, exchange, symbol, amount):
 
         super()
         self.Exchange = exchange
-        self.From = currencyfrom
-        self.To = currencyto
-        self.Market = exchange.markets[self.From.Name + "/" + self.To.Name]
+        self.Symbol = symbol
         self.Amount = amount
-        self.SummaryInfo['cfrom'] = self.From
-        self.SummaryInfo['cto'] = self.To
+        self.SummaryInfo['cfrom'] = botutils.base(symbol)
+        self.SummaryInfo['cto'] = botutils.quote(symbol)
         self.SummaryInfo['efrom'] = self.Exchange
         self.SummaryInfo['eto'] = self.Exchange
         self.SummaryInfo['amount'] = self.Amount
 
     def push_tx(self):
 
-        super.push_tx()
         #TODO:
         #create trade
         #get trade info and store to data
         #set Finished to flag from transaction data
+        ex = self.Exchange.Ex
+        if ex.fetch_balance()[self.SummaryInfo['cfrom']]['free'] < self.Amount:
+            raise Exception('error: not enough funds')
+        results = ex.create_limit_sell_order(self.Symbol, self.Amount,
+                                            self.Exchange.estimate_sell_price_at(self.Symbol, self.Amount))
+        if 'id' in [*results]:
+            self.OrderID = results['id']
+            self.Info = results['info']
+            self.Started = True
+            self.Order = ex.fetch_order(self.OrderID)
+
 

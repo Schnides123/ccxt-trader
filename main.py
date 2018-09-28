@@ -55,6 +55,8 @@ def load_exchanges():
             try:
                 # load all markets from the exchange
                 markets = exchange.load_markets()
+                exchange.currencies = exchange.fetch_currencies()
+                print(green)
 
             # save it in a dictionary under its id for future use
                 Exchanges[row['Exchange']] = exchange
@@ -106,27 +108,31 @@ def load_exes():
     nexs = 0
     for ex in [*exkeys]:
 
-        nexs += 1
+
         exchange = getattr(ccxt, ex)()
 
         try:
             # load all markets from the exchange
-            markets = exchange.load_markets()
+
 
             # save it in a dictionary under its id for future use
-            Exchanges[ex] = exchange
+
             exchange.apiKey = exkeys[ex]['key']
             exchange.secret = exkeys[ex]['secret']
             exchange.password = keys.get_exchange_password(ex)
+            Exchanges[ex] = exchange
             exchanges[ex] = (Exchange.Exchange(exchange))
+            markets = exchange.load_markets()
+            exchange.currencies = exchange.fetch_currencies()
             # instantiate the exchange by id
             dump(green(ex), 'loaded', green(str(len(exchange.symbols))), 'markets')
+            nexs += 1
 
         except Exception as e:
             print(e)
             pass
 
-    dump(green('lcoaded '),(green(str(nexs)) if nexs == len(exkeys) else blue(str(nexs))), green(' of '), green(str(len(exkeys))), green(' markets.'))
+    dump(green('loaded '),(green(str(nexs)) if nexs == len(exkeys) else blue(str(nexs))), green(' of '), green(str(len(exkeys))), green(' markets.'))
 
 
 def load_coins():
@@ -146,6 +152,7 @@ def load_coins():
         # print(s)
     for id in [*Exchanges]:
         balancesheet = Exchanges[id].fetch_balance()
+        #print(balancesheet)
         for currency in [*Currencies]:
             Currencies[currency].add_exchange(Exchanges[id], balancesheet)
 
@@ -187,12 +194,20 @@ def getArbitragePairs():
         #     string += ' {:<15} | '.format(id if symbol in Exchanges[id].symbols else '')
         # dump(string)
 
+def is_active(symbol, exchange):
+    b = base(symbol)
+    q = quote(symbol)
+    if b in exchange.currencies and q in exchange.currencies and symbol in exchange.markets and 'active' in exchange.currencies[b] and 'active' in exchange.currencies[q] and 'active' in exchange.markets[symbol]:
+        return exchange.currencies[b]['active'] and exchange.currencies[q]['active'] and exchange.markets[symbol]['active']
+    else:
+        return True
+
 def getAllArbitragePairs():
 
     ids = [*Exchanges]
     for id in ids:
         marketSymbols[id] = []
-    allSymbols = [symbol for id in ids for symbol in Exchanges[id].symbols if check_symbol(symbol)]
+    allSymbols = [symbol for id in ids for symbol in Exchanges[id].symbols if check_symbol(symbol) and is_active(symbol, Exchanges[id])]
 
     # get all unique symbols
     uniqueSymbols = list(set(allSymbols))
@@ -212,7 +227,7 @@ def getAllArbitragePairs():
         symbex[symbol] = []
 
         for id in ids:
-            if symbol in Exchanges[id].symbols:
+            if symbol in Exchanges[id].symbols and is_active(symbol, Exchanges[id]):
                 marketSymbols[id].append(symbol)
                 symbex[symbol].append(exchanges[id])
 
@@ -288,7 +303,7 @@ def update_pairs():
         #     print(pair.Exsell is not None)
         #     print(pair.min_trade())
         #     print(pair.max_trade())
-        if pair.Exsell is not None and pair.min_trade() < pair.max_trade():
+        if pair.ExSell is not None and pair.min_trade() < pair.max_trade():
             pairs.append(pair)
             #print('pair: ', pair.Symbol)
 
@@ -418,9 +433,27 @@ def main():
     getAllArbitragePairs()
     get_prices()
     update_pairs()
-    print("Arbitrage Pairs:")
+    print(' ')
+    print(green("Found "+str(len(pairs))+" arbitrage pairs:"))
+    print(' ')
+    sumprofit = 0
+    maxamount = 0
+    totalamount = 0
     for p in pairs:
-        print(str(p))
+
+        if p.Margin > botconfig.max_margin or p.Margin < botconfig.min_margin:
+            pairs.remove(p)
+            p.ExBuy.Pairs.remove(p)
+            p.ExSell.Pairs.remove(p)
+        else:
+            print(str(p))
+            sumprofit += convert_to_USD(p.roi(p.max_trade(), sellbuy='sell'), p.Base)
+            maxamount = max(convert_to_USD(p.max_trade(), p.Base), maxamount)
+            totalamount += convert_to_USD(p.max_trade(), p.Base)
+
+    print('Max Profit:  $', "%.2f" % sumprofit)
+    print('Max Trade Price:  $',"%.2f" % maxamount)
+    print('Total Transaction Costs:  $',"%.2f" % totalamount)
 
 
 

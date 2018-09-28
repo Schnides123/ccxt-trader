@@ -3,6 +3,7 @@ import ccxt
 import web3
 import cryptos
 import coinmarketcap
+import sys
 from keys import *
 
 

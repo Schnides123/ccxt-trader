@@ -232,8 +232,8 @@ class Exchange:
             price += minval/book['bids'][i][0]
             i +=1
             if i == len(book['bids']) and count != amount:
-                print(count, '..... ', price)
-                return -1
+                #print(count, '..... ', price)
+                return float('inf')
         return price/amount
 
     def estimate_buy_price(self, symbol, amount, sigma=bookbuffer):
@@ -265,7 +265,7 @@ class Exchange:
             i += 1
             if i == len(book['asks']) and count != amount:
                 print(count, '.... ', price)
-                return -1
+                return float('inf')
         return price / amount
 
     def estimate_buy_price_at(self, symbol, amount, sigma=bookbuffer):
@@ -297,8 +297,8 @@ class Exchange:
             i += 1
             if i == len(book['asks']) and count != amount:
 
-                print(count, '.... ', price)
-                return -1
+                #print(count, '.. .. ', price)
+                return float('inf')
         return price
 
     def estimate_sell_price(self, symbol, amount, sigma=bookbuffer):
@@ -323,7 +323,7 @@ class Exchange:
             i += 1
             if i == len(book['bids']) and count != amount:
                 print(count, '... ', price)
-                return -1
+                return -float('inf')
 
         return price/amount
 
@@ -348,8 +348,8 @@ class Exchange:
             price = book['bids'][i][0]
             i += 1
             if i == len(book['bids']) and count != amount:
-                print(count, '... ', price)
-                return -1
+                #print(count, '. . . ', price)
+                return -float('inf')
 
         return price
 
@@ -374,7 +374,7 @@ class Exchange:
             price += minval * book['asks'][i][0]
             i += 1
             if i == len(book['asks']) and count != amount:
-                print('estimate-ask-price amount out of range')
+                #print('estimate-ask-price amount out of range')
                 return -float('inf')
         return price/amount
 
@@ -407,7 +407,7 @@ class Exchange:
             price += minval/book['bids'][i][0]
             i +=1
             if i == len(book['bids']) and count != amount:
-                print(count, '. ', price)
+                #print(count, '. ', price)
                 return -float('inf')
         return price
 
@@ -499,8 +499,8 @@ class Exchange:
             price += minval * book['asks'][i][0]
             i += 1
             if i == len(book['asks']) and count != amount:
-                print(count, ', ', price)
-                return -1
+                #print(count, ', ', price)
+                return float('inf')
         return price
 
     def estimate_buy_cost(self, symbol, amount, sigma=bookbuffer):

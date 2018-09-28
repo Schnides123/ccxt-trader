@@ -1,22 +1,18 @@
+import botutils
+import botconfig
+
 class Balance:
 
-    def __init__(self, amount, exchange, currency):
+    def __init__(self, amount, currency, exchange=None):
 
         self.Amount = amount
-        self.AmountUSD #TODO
         self.Exchange = exchange
         self.Currency = currency
         self.TxChain = None
         self.InWallet = exchange == None
 
-    def __init__(self, amount, currency):
-
-        self.Amount = amount
-        self.AmountUSD
-        self.Exchange = None
-        self.Currency = currency
-        self.TxChain = None
-        self.InWallet = True
+    def amountUSD(self):
+        return botutils.convert_to_USD(self.Amount, self.Currency)
 
     def assign_transactions(self, txchain):
 
@@ -38,4 +34,4 @@ class Balance:
 
     def balance_key(self):
 
-        return self.Currency.id + "@w" if self.InWallet else self.Exchange.id
+        return self.Currency.id + "@w" if self.InWallet else self.Exchange.ID
